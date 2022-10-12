@@ -1,0 +1,33 @@
+    1. Viết lại file exception.cc để xử lý tất cả các exceptions được liệt kê trong machine/machine.h. Hầu hết các exception trong này là run-time errors, khi các exception này xảy ra thì user program không thể được phục hồi. Trường hợp đặc biệt duy nhất là no exception sẽ trả quyền điều khiển về HĐH, còn syscall exceptions sẽ được xử lý bởi các hàm chúng ta viết cho user system calls. Với tất cả exceptions khác, HĐH hiển thị ra một thông báo lỗi và Halt hệ thống. 
+    
+    2. Tất cả các system calls (ko phải Halt) sẽ yêu cầu Nachos tăng program counter trước khi system call trả kết quả về. Nếu không lập trình đúng phần này thì Nachos sẽ bị vòng lặp gọi thực hiện system call này mãi mãi. Cũng như các hệ thống khác, MIPS xử lý dựa trên giá trị của program counter, vì vậy bạn phải viết mã để tăng gia trị biến program counter, tìm đoạn mã này trong thư mục machine. Bạn phải copy mã này vào vị trí thích hợp trong phần xử lý các system call của bạn. Hiện tại, bạn phải dùng Halt system call tại cuối mỗi user program. 
+
+    3. Cài đặt system call int ReadNum(). ReadNum system call sẽ sử dụng lớp SynchConsoleIn để đọc một số nguyên do người dùng nhập vào. Nếu giá trị người dùng nhập không phải là số nguyên thì trả về zero (0) 
+
+    4. Cài đặt system call void PrintNum(int number). PrintNum system call sẽ sử dụng lớp SynchConsoleOut để xuất một số nguyên ra màn hình 
+
+    5. Cài đặt system call char ReadChar(). ReadChar system call sẽ sử dụng lớp SynchConsoleIn để đọc một ký tự do người dùng nhập vào. 
+
+    6. Cài đặt system call void PrintChar(char character). PrintChar system call sẽ sử dụng lớp SynchConsoleOut để xuất một ký tự ra màn hình 
+
+    7. Cài đặt system call int RandomNum(). RandomNum system call sẽ trả về một số nguyên dương ngẫu nhiên.
+
+    8. Cài đặt đặt system call void ReadString (char[] buffer, int length), Chú ý rằng thanh ghi chỉ chứa số, vì vậy khi truyền vào string sẽ là địa chỉ. Buffer là vùng nhớ thuộc userspace, khi người dùng nhập chuỗi thì nội dung được lưu trữ ở kernel space bạn cần viết một hàm tương ứng để chuyển dữ liệu từ kernelspcae qua userspace (“kernel->machine->ReadMem()”)
+
+    9. Cài đặt system call void PrintString (char[] buffer),  PrintString system call dùng để in chuỗi ký tự trong buffer ra màn hình . Chú ý: tương tự như ReadString bạn cần phải có hàm để chuyển dữ liệu từ userspace qua kernelspace  (“kernel->synchConsoleOut->PutChar()”, không dùng cout, printf hoặc những hàm tương tự, để cho Nachos thực hiện)
+        Chú ý:
+        Chuỗi sẽ kết thúc bởi “\0”. 
+        Sau khi xử lý một system call bạn cần tăng PC lên, nếu không sẽ xảy ra hiện tượng loop (Chi tiết coi trong file HDTH: [3]).  
+    10. Viết chương trình help, CT help dùng để in ra các dòng giới thiệu cơ bản về nhóm và mô tả vắn tắt về chương trình sort và ascii. (thật ra: chỉ việc gọi system call PrintString(char[])). 
+
+    11. Viết chương trình ascii để in ra bảng mã ascii (bắc buộc phải in các kí tự đọc được, các mã ký tự không đọc được không cần phải in ra).
+
+    12. Viết chương trình sort với yêu cầu sau:
+    • Cho phép người dùng nhập vào một mảng n số nguyên với n là số do người dùng nhập vào (n <=100) 
+    • Sử dụng thuật toán bubble sort để sắp xếp mảng trên theo chiều tăng dần hoặc giảm dần tuỳ vào người dùng lựa chọn. 
+
+        Chú ý: không để cho user có thể làm sụp HĐH, system call nên xử lý càng nhiều trường hợp càng tốt 
+        Ví dụ các ngoại lệ bắt buộc phải xử lý: 
+            1. Nhập số nguyên quá lớn, vượt quá phạm vi của số nguyên trong C. 
+            2. Nhập ký tự thay vì nhập số nguyên 
+        …
