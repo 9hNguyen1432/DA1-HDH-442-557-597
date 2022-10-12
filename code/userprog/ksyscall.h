@@ -39,88 +39,120 @@ int SysAdd(int op1, int op2)
 
 char SysReadChar() 
 { 
-  char c = '\0', temp = '\0';
+  char Char = '\0', temp = '\0';
   do
   {
+	// coppy value of getchar() to Char
     temp = kernel->synchConsoleIn->GetChar();
-    if (c == '\0')
+    if (Char == '\0')
     {
-      c = temp;
+      Char = temp;
     }
   } while (temp != '\0' && temp != '\n' && temp != EOF);
-  return c;
-  // chi can return kernel->synchConsoleIn->GetChar(); la se chay duoc roi
-  // Nhung de fix loi khi nhap >= 3 ki tu thi terminal se tu dong chay 1 lenh voi cau lenh la 2 ki tu con lai ma user nhap du
+  return Char;
+  // same eturn kernel->synchConsoleIn->GetChar()
 }
 
 void SysPrintChar(char character) {
-  // vao kernel->synchConsoleOut va goi ham PutChar() de xuat 1 ki tu ra man hinh console
+  // call fuction PutChar() to print char
   kernel->synchConsoleOut->PutChar(character);
   return;
 }
 
 int SysRandomNum() {
-  // dung ham random cua thu vien #include <stdlib.h> de tao ra mot so nguyen ngau nhien
+  // get random number by libary #include <bits/stdc++.h> 
   return rand();
 }
 
-void SysReadString(int buffer, int length)
+/**
+ * @brief Read String
+ *
+ * @param serBufferAddress addess of user string
+ * @param length max length of user string
+ * @return void
+ */
+
+void SysReadString(int userBufferAddress, int maxLength)
 {
-	char *buff = NULL;
-  // de gan gia tri tra ve cua kernel->synchConsoleIn->ReadStr(buff,length);, lay vi tri cua dau \0
+	char *buffer = NULL;
+	// return lenght string value
 	int userStringMaxLength = 0;
-	if (length > 0) 
+	if (maxLength > 0) 
 	{
-		buff = new char[length];
-		if (buff == NULL) 
+		buffer = new char[maxLength];
+		if (buffer == NULL) 
 		{
-			char msg[] = "Not enough space to store or user entered a null string.\n\0";
-			kernel->synchConsoleOut->PrintStr(msg,strlen(msg)); // print out the msg
+			char Msg[] = "Not enough space to store or user entered a null string.\n\0";
+			//call fuction print string to print message
+			kernel->synchConsoleOut->PrintStr(Msg,strlen(Msg)); 
 		}
-    // buff not null
+    	// arr not temp :))
 		else
 		{
-			char msg[] = "Enter string: \0";
-			kernel->synchConsoleOut->PrintStr(msg);
-			userStringMaxLength = kernel->synchConsoleIn->ReadStr(buff,length); 
-			//Return the pos of '\0' suppose to be
-			buff[userStringMaxLength] = '\0';
+			char Msg[] = "Enter string: \0";
+			kernel->synchConsoleOut->PrintStr(Msg);
+
+			// get userStringMaxLength by Readstring fuction
+			userStringMaxLength = kernel->synchConsoleIn->ReadStr(buffer,maxLength); 
+
+			// char end string
+			buffer[userStringMaxLength] = '\0';
+
+			//check temp string input	
+			if(userStringMaxLength == 0){
+				char Msg[] = "Your input is temp string! \0";
+				//call fuction print string to print message
+				kernel->synchConsoleOut->PrintStr(Msg,strlen(Msg)); 
+			} 
+			else
+			{
+				// get data of buff arr
+				for (int i = 0; i <= userStringMaxLength ; i++) 
+				{
+					// coppy data of user buffer ( User Space to System Space)
+					kernel->machine->WriteMem(userBufferAddress+i,1,(int)buffer[i]); 
+				}
+			}
+
 		}
 	}
+	// if length <=0 set length to 0 
 	else
 	{
-		memset(buff, 0, length);
+		//Set Max length bytes of buff to 0.
+		memset(buffer, 0, maxLength);
 	}
-  //cerr << "Doc duoc: ";
-	if (buff != NULL) 
-	{
-		for (int i = 0; i <= userStringMaxLength ; i++) 
-		{
-      //cerr << buff[i];
-			//Kernel buff -> user buffer
-			kernel->machine->WriteMem(buffer+i,1,(int)buff[i]); 
-      // Lay du lieu cua Kernel(buff) Write vao du lieu cua user(buffer). Thi ben cai user (file string io no se co du lieu)
-		}
-        delete[] buff;
-  }
-  //cerr << "\n";	    
+
+	//free space buff arr
+	delete[] buffer;
+
   return;
 }
 
-void SysPrintString(int buffer)
+
+/**
+ * @brief Print String
+ *
+ * @param serBufferAddress addess of user string
+ * @param length max length of user string
+ * @return void
+ */
+
+void SysPrintString(int userBufferAddress)
 {
-  int ch = 0;
-	//int ch[128]
+   	int charAddr = 0;
 	int MAX_STRING_LENGTH = 256;
+
 	for(int i=0; i < MAX_STRING_LENGTH; i++)
 	{
-		//user buffer -> kernel p
-		kernel->machine->ReadMem(buffer+i,1,&ch); 
-    // Lay du lieu tu user tai dia chi buffer+i bo vao kernel ch
-		// kernel->machine->ReadMem(buffer+i,1,ch+i);
-		// Vi lay string de print ra thoi nen khong can char array
-		kernel->synchConsoleOut->PutChar(char(ch));
-		if(char(ch) == '\0' || char(ch) == EOF)
+		// coppy data of user cha (System Space to User Space)
+		kernel->machine->ReadMem(userBufferAddress+i,1,&charAddr); 
+
+		// print char element of string
+		kernel->synchConsoleOut->PutChar(char(charAddr));
+
+		//end string
+		if(char(charAddr) == '\0' || char(charAddr) == EOF)
 		{
 			break;
 		}

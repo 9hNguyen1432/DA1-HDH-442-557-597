@@ -2,9 +2,8 @@
 
 int main()
 {
-  int result;
-  result = RandomNum();
-  PrintChar(result);
+  int RandomBumber = RandomNum();
   PrintString('/n');
   Halt();
+  
 }

@@ -29,8 +29,8 @@ int SynchConsoleInput::ReadStr(char* buffer,int length)
 {
     for(int i = 0; i < (length-1); i++)
     {
+        // get char buffer[i]
         buffer[i] = this->GetChar();
-        //cerr << buffer[i] << (int)buffer[i] << "\n";
         if(buffer[i] == '\n' || buffer[i] == EOF)
         {
             return i;

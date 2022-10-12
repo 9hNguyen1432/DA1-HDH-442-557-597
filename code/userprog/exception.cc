@@ -53,6 +53,10 @@
 // for using the string object
 #define MAX_READ_STRING_LENGTH 255
 
+
+/**
+ * @brief Increase Program counter of Systems 4 byte to continue loading command
+ */
 void IncreasePC() {
     /* set previous programm counter (debugging only)
      * similar to: registers[PrevPCReg] = registers[PCReg];*/
@@ -70,29 +74,30 @@ void IncreasePC() {
 /**
  * @brief Convert user string to system string
  * @param addr addess of user string
- * @param size set max length of string to convert
+ * @param limitSize set max length of string to convert
  * @return char*
  */
 
-char* UserToKernel(int addr, int size)
+char* UserToKernel(int addr, int limitSize)
 {
-	int i; 
 	int _char;
-	char* kernelBuf = NULL;
-	kernelBuf = new char[size + 1]; 
-	if (kernelBuf == NULL)
-		return kernelBuf;
+	char* kernelBuff = NULL;
+	kernelBuff = new char[limitSize + 1]; 
+
+	if (kernelBuff == NULL)
+		return kernelBuff;
 		
-	memset(kernelBuf, 0, size + 1);
+	memset(kernelBuff, 0, limitSize + 1);
 	
-	for (i = 0; i < size; i++)
+	int i; 
+	for (i = 0; i < limitSize ;i++)
 	{
 		kernel->machine->ReadMem(addr + i, 1, &_char);
-		kernelBuf[i] = (char)_char;
+		kernelBuff[i] = (char)_char;
 		if (_char == 0)
 			break;
 	}
-	return kernelBuf;
+	return kernelBuff;
 }
 
 /**
@@ -100,20 +105,20 @@ char* UserToKernel(int addr, int size)
  *
  * @param buffer string to convert
  * @param addr addess of user string
- * @param len set max length of string to convert
+ * @param limitSize set max length of string to convert
  * @return int
  */
-int KerneltoUser(int addr, int len, char* buffer)
+int KerneltoUser(int addr, int limitSize, char* buffer)
 {
-	if (len < 0) return -1;
-	if (len == 0)return len;
+	if (limitSize < 0) return -1;
+	if (limitSize == 0)return limitSize;
 	int i = 0;
 	int _char = 0;
 	do{
 		_char = (int)buffer[i];
 		kernel->machine->WriteMem(addr + i, 1, _char);
 		i++;
-	} while (i < len && _char != 0 && _char != '\0');
+	} while (i < limitSize && _char != 0 && _char != '\0');
 	return i;
 }
 

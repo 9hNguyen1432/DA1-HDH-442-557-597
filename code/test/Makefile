@@ -148,19 +148,19 @@ printchar: printchar.o start.o
 	$(LD) $(LDFLAGS) start.o printchar.o -o printchar.coff
 	$(COFF2NOFF) printchar.coff printchar
 
-randomnumber.o: randomnumber.c
-	$(CC) $(CFLAGS) -c randomnumber.c
+randomnum.o: randomnum.c
+	$(CC) $(CFLAGS) -c randomnum.c
 
-randomnumber: randomnumber.o start.o
-	$(LD) $(LDFLAGS) start.o randomnumber.o -o randomnumber.coff
-	$(COFF2NOFF) randomnumber.coff randomnumber
+randomnum: randomnum.o start.o
+	$(LD) $(LDFLAGS) start.o randomnum.o -o randomnum.coff
+	$(COFF2NOFF) randomnum.coff randomnum
 
-stringio.o: stringio.c
-	$(CC) $(CFLAGS) -c stringio.c
+string_io.o: string_io.c
+	$(CC) $(CFLAGS) -c string_io.c
 
-stringio: stringio.o start.o
-	$(LD) $(LDFLAGS) start.o stringio.o -o stringio.coff
-	$(COFF2NOFF) stringio.coff stringio
+string_io: string_io.o start.o
+	$(LD) $(LDFLAGS) start.o string_io.o -o string_io.coff
+	$(COFF2NOFF) string_io.coff string_io
 
 
 shell.o: shell.c
