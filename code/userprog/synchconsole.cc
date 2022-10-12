@@ -24,7 +24,10 @@ SynchConsoleInput::SynchConsoleInput(char *inputFile)
     waitFor = new Semaphore("console in", 0);
 }
 
-// read the whole string and return the end pos of the str
+//----------------------------------------------------------------------
+// SynchConsoleInput::ReadString
+//      Read a string from keyboard to buffer, return number of read characters.
+//----------------------------------------------------------------------
 int SynchConsoleInput::ReadStr(char* buffer,int length)
 {
     for(int i = 0; i < (length-1); i++)
@@ -94,7 +97,11 @@ SynchConsoleOutput::SynchConsoleOutput(char *outputFile)
     waitFor = new Semaphore("console out", 0);
 }
 
-// to print the whole string
+//----------------------------------------------------------------------
+// SynchConsoleOutput::PrintSting
+//      Write a string to the console display, return number of written
+//      charaters.
+//----------------------------------------------------------------------
 void SynchConsoleOutput::PrintStr(char* buffer,int length)
 {
      for(int i= 0;i < length;i++)
