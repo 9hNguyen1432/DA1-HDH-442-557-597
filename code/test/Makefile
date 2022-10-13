@@ -112,7 +112,7 @@ ifeq ($(hosttype),unknown)
 PROGRAMS = unknownhost
 else
 # change this if you create a new test program!
-PROGRAMS = add halt shell matmult sort segments sub readchar printchar numio randomnumber stringio help ascii bubblesort 
+PROGRAMS = add halt shell matmult sort segments sub readchar printchar numio randomnumber string_io help ascii bubblesort 
 endif
 
 all: $(PROGRAMS)
@@ -161,6 +161,27 @@ string_io.o: string_io.c
 string_io: string_io.o start.o
 	$(LD) $(LDFLAGS) start.o string_io.o -o string_io.coff
 	$(COFF2NOFF) string_io.coff string_io
+
+help.o: help.c
+	$(CC) $(CFLAGS) -c help.c
+
+help: help.o start.o
+	$(LD) $(LDFLAGS) start.o help.o -o help.coff
+	$(COFF2NOFF) help.coff help
+
+ascii.o: ascii.c
+	$(CC) $(CFLAGS) -c help.c
+
+ascii: ascii.o start.o
+	$(LD) $(LDFLAGS) start.o ascii.o -o ascii.coff
+	$(COFF2NOFF) ascii.coff ascii
+
+bubblesort.o: bubblesort.c
+	$(CC) $(CFLAGS) -c help.c
+
+bubblesort: bubblesort.o start.o
+	$(LD) $(LDFLAGS) start.o bubblesort.o -o bubblesort.coff
+	$(COFF2NOFF) bubblesort.coff bubblesort
 
 
 shell.o: shell.c
