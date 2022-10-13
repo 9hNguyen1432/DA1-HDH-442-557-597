@@ -43,6 +43,7 @@ void ReadToBlank()
 	do
 	{
 		c = kernel->synchConsoleIn->GetChar();
+		// them trường hợp dùng đọc
 		if (c == EOF ||c =='\n')
 		{
 			DEBUG(dbgSys, "End of file");
@@ -53,6 +54,7 @@ void ReadToBlank()
 			DEBUG(dbgSys, "Unexpected white-space");
 			return;
 		}
+		// với này t ko rành lắm :)) nên t sửa cho an toàn 
 		numberBuffer[n] = c;
 		n++;
 		if (n > MAX_NUM_LENGTH)
