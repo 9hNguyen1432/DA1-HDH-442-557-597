@@ -4,5 +4,6 @@ int main() {
     char c;
     c = ReadChar();
     PrintChar(c);
+    PrintString("\n");
     Halt(); 
 }

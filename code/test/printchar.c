@@ -1,6 +1,7 @@
 #include "syscall.h"
 
 int main() {
-    PrintChar('q');
+    PrintChar('t');
+    PrintString("\n");
     Halt();
 }

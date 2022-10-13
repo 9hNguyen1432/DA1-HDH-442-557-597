@@ -50,7 +50,7 @@ char SysReadChar()
     }
   } while (temp != '\0' && temp != '\n' && temp != EOF);
   return Char;
-  // same eturn kernel->synchConsoleIn->GetChar()
+  // same return kernel->synchConsoleIn->GetChar()
 }
 
 void SysPrintChar(char character) {
