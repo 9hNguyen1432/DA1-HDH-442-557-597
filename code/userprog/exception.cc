@@ -125,8 +125,8 @@ int KerneltoUser(int addr, int limitSize, char *buffer)
 	return i;
 }
 
-// handel for SC_Add
-void Handel_SC_Add()
+// Handle for SC_Add
+void Handle_SC_Add()
 {
 	DEBUG(dbgSys, "Add " << kernel->machine->ReadRegister(4) << " + " << kernel->machine->ReadRegister(5) << "\n");
 	/* Process SysAdd Systemcall*/
@@ -151,8 +151,8 @@ void handle_SC_PrintNum()
 	SysPrintNum(character);
 }
 
-// Handel_SC_ReaChar
-void Handel_SC_ReadChar()
+// Handle_SC_ReaChar
+void Handle_SC_ReadChar()
 {
 	char *buffer = new char[255];
 	int userStringMaxLength = kernel->synchConsoleIn->ReadStr(buffer, 256);
@@ -184,7 +184,7 @@ void Handel_SC_ReadChar()
 	}
 }
 
-void Handel_SC_PrintChar()
+void Handle_SC_PrintChar()
 {
 	// Create a variable to store data that is on Register(4)
 	char character = (char)kernel->machine->ReadRegister(4);
@@ -192,7 +192,7 @@ void Handel_SC_PrintChar()
 	SysPrintChar(character);
 }
 
-void Handel_SC_RandomNum()
+void Handle_SC_RandomNum()
 {
 	// call ksyscall fuction
 	int randomnum = SysRandomNum();
@@ -200,7 +200,7 @@ void Handel_SC_RandomNum()
 	kernel->machine->WriteRegister(2, randomnum);
 }
 
-void Handel_SC_ReadString()
+void Handle_SC_ReadString()
 {
 	// Create a variable to store user Buffer Address that is on Register(4)
 	// Create a variable to store Length of string that is on Register(4)
@@ -210,7 +210,7 @@ void Handel_SC_ReadString()
 	SysReadString(userBufferAddress, stringLength);
 }
 
-void Handel_SC_PrintString()
+void Handle_SC_PrintString()
 {
 	// Create a variable to store user Buffer Address that is on Register(4)
 	int userBufferAddress = kernel->machine->ReadRegister(4);
@@ -285,7 +285,7 @@ void ExceptionHandler(ExceptionType which)
 
 		case SC_Add:
 		{
-			Handel_SC_Add();
+			Handle_SC_Add();
 			IncreasePC();
 			return;
 			ASSERTNOTREACHED();
@@ -311,7 +311,7 @@ void ExceptionHandler(ExceptionType which)
 
 		case SC_ReadChar:
 		{
-			Handel_SC_ReadChar();
+			Handle_SC_ReadChar();
 
 			// Move Program Counter
 			IncreasePC();
@@ -321,7 +321,7 @@ void ExceptionHandler(ExceptionType which)
 		}
 		case SC_PrintChar:
 		{
-			Handel_SC_PrintChar();
+			Handle_SC_PrintChar();
 			// Move Program Counter
 			IncreasePC();
 			return;
@@ -331,7 +331,7 @@ void ExceptionHandler(ExceptionType which)
 
 		case SC_RandomNum:
 		{
-			Handel_SC_RandomNum();
+			Handle_SC_RandomNum();
 			// Move Program Counter
 			IncreasePC();
 			return;
@@ -341,7 +341,7 @@ void ExceptionHandler(ExceptionType which)
 
 		case SC_ReadString:
 		{
-			Handel_SC_ReadString();
+			Handle_SC_ReadString();
 			// Move Program Counter
 			IncreasePC();
 			return;
@@ -351,7 +351,7 @@ void ExceptionHandler(ExceptionType which)
 
 		case SC_PrintString:
 		{
-			Handel_SC_PrintString();
+			Handle_SC_PrintString();
 			// Move Program Counter
 			IncreasePC();
 			return;

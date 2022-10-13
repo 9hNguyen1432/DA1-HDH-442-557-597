@@ -43,7 +43,7 @@ void ReadToBlank()
 	do
 	{
 		c = kernel->synchConsoleIn->GetChar();
-		if (c == EOF)
+		if (c == EOF ||c =='\n')
 		{
 			DEBUG(dbgSys, "End of file");
 			return;
@@ -53,7 +53,8 @@ void ReadToBlank()
 			DEBUG(dbgSys, "Unexpected white-space");
 			return;
 		}
-		numberBuffer[n++] = c;
+		numberBuffer[n] = c;
+		n++;
 		if (n > MAX_NUM_LENGTH)
 		{
 			DEBUG(dbgSys, "Number is longger than expection.");
@@ -139,12 +140,16 @@ int SysReadNum()
 void SysPrintNum(int num) {
     if (num == 0) return kernel->synchConsoleOut->PutChar('0');
 
-    if (num == INT32_MIN) {
+    if (num == INT_MIN) {
         kernel->synchConsoleOut->PutChar('-');
         for (int i = 0; i < 10; ++i)
             kernel->synchConsoleOut->PutChar("2147483648"[i]);
         return;
     }
+
+	if (num < INT_MIN || num > INT_MAX) {
+    return kernel->synchConsoleOut->PutChar('0');
+  	} 
 
     if (num < 0) {
         kernel->synchConsoleOut->PutChar('-');

@@ -1,7 +1,8 @@
 #include "syscall.h"
 
 int main() {
-    PrintNum(1020324);
-
-    return 0;
+    PrintString("Your Number: \0");
+    PrintNum(26022002);
+    PrintString("\n");
+    Halt();
 }
