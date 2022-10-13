@@ -35,6 +35,9 @@
 #define SC_ThreadExit   14
 #define SC_ThreadJoin   15
 
+
+#define SC_ReadNum      50
+#define SC_PrintNum     51
 #define SC_Add		    42
 #define SC_ReadChar     45
 #define SC_PrintChar    46
@@ -65,7 +68,9 @@ int RandomNum();
  */ 
 int Add(int op1, int op2);
 
+int ReadNum();
 
+void PrintNum(int n);
 // Read the character when user type in
 char ReadChar();
 
