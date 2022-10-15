@@ -6,5 +6,4 @@ int main()
   PrintNum(result);
   PrintString('/n');
   Halt();
-  
 }

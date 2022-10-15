@@ -87,19 +87,14 @@ int SysReadNum()
 		return 0;
 
 	bool negative = (numberBuffer[0] == '-');
-	int zeros = 0;
-	bool zeros_fisrt = true;
 	int num = 0;
 	// if negative, number begin index 1
 	// else number begin index 0
 	for (int i = negative; i < len; ++i)
 	{
 		char c = numberBuffer[i];
-		// check first characters is zero
-		if (c == '0' && zeros_fisrt)
-			++zeros;
-		else
-			zeros_fisrt = false;
+		
+		
 		if (c < '0' || c > '9')
 		{
 			DEBUG(dbgSys, "Expected number but " << numberBuffer << " found");

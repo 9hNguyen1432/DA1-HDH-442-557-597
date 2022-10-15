@@ -142,12 +142,15 @@ void Handle_SC_Add()
 void handle_SC_ReadNum()
 {
 	int result = SysReadNum();
+	// Write data to Register(2)
 	kernel->machine->WriteRegister(2, result);
 }
 
 void handle_SC_PrintNum()
 {
+	// Create a variable to store data that is on Register(4)
 	int character = (int)kernel->machine->ReadRegister(4);
+	// call ksyscall fuction
 	SysPrintNum(character);
 }
 
