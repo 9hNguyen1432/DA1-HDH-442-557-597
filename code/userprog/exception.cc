@@ -233,6 +233,16 @@ void Handle_SC_CreateFile() {
     delete[] fileName;
 }
 
+void Handle_SC_Open() {
+    int virtAddr = kernel->machine->ReadRegister(4);
+    char* fileName = UserToKernel(virtAddr,255);
+    int type = kernel->machine->ReadRegister(5);
+
+    kernel->machine->WriteRegister(2, SysOpen(fileName, type));
+
+    delete [] fileName;
+}
+
 
 
 void ExceptionHandler(ExceptionType which)
@@ -379,6 +389,15 @@ void ExceptionHandler(ExceptionType which)
 		case SC_CreateFile:
 		{
             Handle_SC_CreateFile();
+			// Move Program Counter
+			IncreasePC();
+			return;
+			ASSERTNOTREACHED();
+			break;
+		}
+		case SC_Open: 
+		{
+			Handle_SC_Open();
 			// Move Program Counter
 			IncreasePC();
 			return;

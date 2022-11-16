@@ -46,7 +46,6 @@
 #define SC_PrintString  49
 
 #define SC_CreateFile   52
-// #define SC_Open         53
 
 #ifndef IN_ASM
 
@@ -143,15 +142,15 @@ int Create(char *name);
 
 int CreateFile(char *name);
 
-// OpenFileId Open(char *name, int type);
+OpenFileId Open(char *name, int type);
 
 /* Remove a Nachos file, with name "name" */
 int Remove(char *name);
 
 /* Open the Nachos file "name", and return an "OpenFileId" that can 
  * be used to read and write to the file.
- */
-OpenFileId Open(char *name);
+//  */
+// OpenFileId Open(char *name);
 
 /* Write "size" bytes from "buffer" to the open file. 
  * Return the number of bytes actually read on success.

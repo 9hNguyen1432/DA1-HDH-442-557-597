@@ -330,6 +330,13 @@ OpenForReadWrite(char *name, bool crashOnError)
     return fd;
 }
 
+int OpenForRead(char *name, bool crashOnError) {
+    int fd = open(name, O_RDONLY, 0);
+
+    ASSERT(!crashOnError || fd >= 0);
+    return fd;
+}
+
 //----------------------------------------------------------------------
 // Read
 // 	Read characters from an open file.  Abort if read fails.
