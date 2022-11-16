@@ -46,7 +46,7 @@
 #define SC_PrintString  49
 
 #define SC_CreateFile   52
-#define SC_Open         53
+// #define SC_Open         53
 
 #ifndef IN_ASM
 
@@ -143,7 +143,7 @@ int Create(char *name);
 
 int CreateFile(char *name);
 
-OpenFileId Open(char *name, int type);
+// OpenFileId Open(char *name, int type);
 
 /* Remove a Nachos file, with name "name" */
 int Remove(char *name);
