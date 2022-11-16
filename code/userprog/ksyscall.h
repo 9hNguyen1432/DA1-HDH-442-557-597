@@ -21,6 +21,7 @@
 // define
 /* maximum length of an interger (included the minus sign) */
 #define MAX_NUM_LENGTH 11
+#define MAXFILELENGTH 255
 /* A buffer to read and write number */
 char numberBuffer[MAX_NUM_LENGTH + 2];
 
@@ -283,6 +284,34 @@ void SysPrintString(int userBufferAddress)
 			break;
 		}
 	}
+}
+
+bool SysCreateFile(char* fileName) {
+    bool success;
+    int fileNameLength = strlen(fileName);
+
+    if (fileNameLength == 0) {
+        DEBUG(dbgSys, "\nFile name can't be empty");
+        success = false;
+
+    } else if (fileName == NULL) {
+        DEBUG(dbgSys, "\nCreateFile: Not enough memory in system");
+        success = false;
+
+    } else {
+        DEBUG(dbgSys, "\nFile's name read successfully");
+		bool temp = kernel->fileSystem->Create(fileName);
+        if (!temp) {
+            DEBUG(dbgSys, "\nCreateFile: Error create file");
+            success = false;
+        } 
+		
+		else {
+            success = true;
+        }
+    }
+
+    return success;
 }
 
 #endif /* ! __USERPROG_KSYSCALL_H__ */

@@ -221,6 +221,20 @@ void Handle_SC_PrintString()
 	SysPrintString(userBufferAddress);
 }
 
+void Handle_SC_CreateFile() {
+    int virtAddr = kernel->machine->ReadRegister(4);
+    char* fileName = UserToKernel(virtAddr,255);
+
+    if (SysCreateFile(fileName))
+        kernel->machine->WriteRegister(2, 0);
+    else
+        kernel->machine->WriteRegister(2, -1);
+
+    delete[] fileName;
+}
+
+
+
 void ExceptionHandler(ExceptionType which)
 {
 	int type = kernel->machine->ReadRegister(2);
@@ -362,6 +376,15 @@ void ExceptionHandler(ExceptionType which)
 			break;
 		}
 
+		case SC_CreateFile:
+		{
+            Handle_SC_CreateFile();
+			// Move Program Counter
+			IncreasePC();
+			return;
+			ASSERTNOTREACHED();
+			break;
+		}
 		default:
 			cerr << "Unexpected system call " << type << "\n";
 			break;

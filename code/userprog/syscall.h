@@ -44,6 +44,10 @@
 #define SC_RandomNum    47
 #define SC_ReadString   48
 #define SC_PrintString  49
+
+#define SC_CreateFile   52
+#define SC_Open         53
+
 #ifndef IN_ASM
 
 /* The system call interface.  These are the operations the Nachos
@@ -136,6 +140,10 @@ typedef int OpenFileId;
 /* Note: Create does not open the file.   */
 /* Return 1 on success, negative error code on failure */
 int Create(char *name);
+
+int CreateFile(char *name);
+
+OpenFileId Open(char *name, int type);
 
 /* Remove a Nachos file, with name "name" */
 int Remove(char *name);
