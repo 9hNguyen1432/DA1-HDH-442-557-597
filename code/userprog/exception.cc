@@ -243,6 +243,11 @@ void Handle_SC_Open() {
     delete [] fileName;
 }
 
+void Handle_SC_Close (){
+	int id = kernel->machine->ReadRegister(4);
+    kernel->machine->WriteRegister(2, SysClose(id));
+}
+
 
 
 void ExceptionHandler(ExceptionType which)
@@ -399,6 +404,15 @@ void ExceptionHandler(ExceptionType which)
 		{
 			Handle_SC_Open();
 			// Move Program Counter
+			IncreasePC();
+			return;
+			ASSERTNOTREACHED();
+			break;
+		}
+
+		case SC_Close:
+		{
+			Handle_SC_Close();
 			IncreasePC();
 			return;
 			ASSERTNOTREACHED();

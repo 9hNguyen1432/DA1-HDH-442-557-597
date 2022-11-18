@@ -123,13 +123,6 @@ Write:
 	j	$31
 	.end Write
 
-	.globl Close
-	.ent	Close
-Close:
-	addiu $2,$0,SC_Close
-	syscall
-	j	$31
-	.end Close
 
 	.globl Seek
 	.ent	Seek
@@ -243,6 +236,15 @@ Open:
 	syscall
 	j	$31
 	.end Open
+
+
+	.globl Close
+	.ent	Close
+Close:
+	addiu $2,$0,SC_Close
+	syscall
+	j	$31
+	.end Close
 
 
 /* dummy function to keep gcc happy */

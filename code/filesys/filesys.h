@@ -39,26 +39,15 @@
 #include "filetable.h"
 
 #ifdef FILESYS_STUB  // Temporarily implement file system calls as
-#define MAX_PROCESS 10
 // calls to UNIX, until the real file system
 // implementation is available
 class FileSystem {
    public:
-   FileTable **fileTable;
+    FileTable *fileTable;
 
-    FileSystem() {
-        fileTable = new FileTable *[MAX_PROCESS];
-        for (int i = 0; i < MAX_PROCESS; i++) {
-            fileTable[i] = new FileTable;
-        }
-    }
+    FileSystem() { fileTable = new FileTable; }
 
-   ~FileSystem() {
-        for (int i = 0; i < MAX_PROCESS; i++) {
-            delete fileTable[i];
-        }
-        delete[] fileTable;
-    }
+    ~FileSystem() { delete fileTable; }
 
     bool Create(char *name) {
         int fileDescriptor = OpenForWrite(name);
