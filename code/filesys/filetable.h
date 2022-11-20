@@ -1,11 +1,12 @@
 #include "openfile.h"
 #include "sysdep.h"
+
 #define FILE_MAX 10
 #define CONSOLE_IN 0
 #define CONSOLE_OUT 1
 #define MODE_READWRITE 0
-#define MODE_WRITE 1
-#define MODE_READ 2
+#define MODE_READ 1
+#define MODE_WRITE 2
 
 class FileTable {
    private:
@@ -57,7 +58,7 @@ class FileTable {
         }
         return -1;
     }
-
+    
     ~FileTable() {
         for (int i = 0; i < FILE_MAX; i++) {
             if (openFile[i]) delete openFile[i];
