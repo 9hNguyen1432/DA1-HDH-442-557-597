@@ -223,11 +223,15 @@ void Handle_SC_PrintString()
 
 void Handle_SC_CreateFile() {
     int virtAddr = kernel->machine->ReadRegister(4);
+	//get file name from user
     char* fileName = UserToKernel(virtAddr,255);
 
+	//call SysCreateFile
     if (SysCreateFile(fileName))
+		//if success
         kernel->machine->WriteRegister(2, 0);
     else
+		//if failed
         kernel->machine->WriteRegister(2, -1);
 
     delete[] fileName;
@@ -235,17 +239,23 @@ void Handle_SC_CreateFile() {
 
 void Handle_SC_Open() {
     int virtAddr = kernel->machine->ReadRegister(4);
+	//get file name from user
     char* fileName = UserToKernel(virtAddr,255);
+	//get type from user
     int type = kernel->machine->ReadRegister(5);
 
-    kernel->machine->WriteRegister(2, SysOpen(fileName, type));
+	//return check open file state
+	int check = SysOpen(fileName, type);
+
+    kernel->machine->WriteRegister(2, check);
 
     delete [] fileName;
 }
 
 void Handle_SC_Close (){
-	int id = kernel->machine->ReadRegister(4);
-    kernel->machine->WriteRegister(2, SysClose(id));
+	int id = kernel->machine->ReadRegister(4);  // get id from pc4
+    int result = SysClose(id);                  // call function sysclose
+    kernel->machine->WriteRegister(2, result);  // return result to pc2
 }
 
 
@@ -413,6 +423,7 @@ void ExceptionHandler(ExceptionType which)
 		case SC_Close:
 		{
 			Handle_SC_Close();
+			// Move Program Counter
 			IncreasePC();
 			return;
 			ASSERTNOTREACHED();

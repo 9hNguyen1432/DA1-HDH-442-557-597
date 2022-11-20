@@ -286,43 +286,67 @@ void SysPrintString(int userBufferAddress)
 	}
 }
 
-bool SysCreateFile(char* fileName) {
-    bool success;
-    int fileNameLength = strlen(fileName);
 
-    if (fileNameLength == 0) {
+/**
+ * @brief CreateFile
+ *
+ * @param fileName name of file 
+ * @return bool
+ */
+
+bool SysCreateFile(char* fileName) {
+    bool check = true;
+
+    if (strlen(fileName) == 0) {
         DEBUG(dbgSys, "\nFile name can't be empty");
-        success = false;
+        check = false;
 
     } else if (fileName == NULL) {
-        DEBUG(dbgSys, "\nCreateFile: Not enough memory in system");
-        success = false;
+        DEBUG(dbgSys, "\nNot enough memory in system");
+        check = false;
 
     } else {
         DEBUG(dbgSys, "\nFile's name read successfully");
 		bool temp = kernel->fileSystem->Create(fileName);
         if (!temp) {
-            DEBUG(dbgSys, "\nCreateFile: Error create file");
-            success = false;
-        } 
-		
-		else {
-            success = true;
+            DEBUG(dbgSys, "\nError create file");
+            check = false;
         }
     }
 
-    return success;
+    return check;
 }
 
+
+/**
+ * @brief Open file
+ *
+ * @param fileName name of file
+ * @param type type of open file
+ * @return id 
+ */
 int SysOpen(char* fileName, int type) {
+	//check type value 0 or 1
     if (type != 0 && type != 1) return -1;
 
+
+	//get id of file from open
     int id = kernel->fileSystem->Open(fileName, type);
+
+	//check id return 
     if (id == -1) return -1;
-    DEBUG(dbgSys, "\nOpened file");
+    DEBUG(dbgSys, "\nFile is opened");
     return id;
 }
 
+
+
+/**
+ * @brief Close file
+ *
+ * @param id id of close file
+ * @return check  
+ */
 int SysClose(int id) { return kernel->fileSystem->Close(id); }
 
 #endif /* ! __USERPROG_KSYSCALL_H__ */
