@@ -2,7 +2,7 @@
 
 int main() {
     char fileName[256];
-    PrintString("Enter file's name: \n");
+    PrintString("Press file's name: \n");
     ReadString(fileName, 255);
 
     if (CreateFile(fileName) == 0) {
@@ -10,5 +10,10 @@ int main() {
         PrintString(fileName);
         PrintString(" created successfully!\n");
     } else
-        PrintString("Create file failed\n");
+    {
+        PrintString("File ");
+        PrintString(fileName);
+        PrintString("File create failed!\n");
+    }
+
 }

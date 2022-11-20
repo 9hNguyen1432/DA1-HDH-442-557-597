@@ -2,8 +2,7 @@
 
 int main() {
     char fileName[] = "abc";
-    int length, id;
-
+    int id;
     if ((id = Open(fileName, 0)) != -1) {
         PrintString("File ");
         PrintString(fileName);
@@ -16,6 +15,9 @@ int main() {
         PrintString("Close successfully!\n");
     } else
     {
-        PrintString("Open file failed\n");
+        PrintString("File ");
+        PrintString(fileName);
+        PrintString(" opened failed!\n");
+
     }
 }
